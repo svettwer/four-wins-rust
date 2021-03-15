@@ -1,3 +1,9 @@
 import * as wasm from "four-wins";
 
-wasm.greet();
+function playerAction(location){
+    document.getElementById(location).classList.add("bg-yellow-800")
+}
+
+export{
+    playerAction
+}
