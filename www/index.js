@@ -1,9 +1,10 @@
-import * as wasm from "four-wins";
+import App from './App.svelte';
 
-function playerAction(location){
-    document.getElementById(location).classList.add("bg-yellow-800")
-}
+const app = new App({
+	target: document.body,
+	props: {
+		name: 'world'
+	}
+});
 
-export{
-    playerAction
-}
+export default app;
