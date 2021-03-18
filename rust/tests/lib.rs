@@ -7,7 +7,7 @@ wasm_bindgen_test_configure!(run_in_browser);
 use four_wins::FourWins;
 
 #[wasm_bindgen_test]
-fn get_winner_on_rows() {
+fn get_winner_on_cols() {
     
     //GIVEN
     let mut game = FourWins::new();
@@ -20,6 +20,25 @@ fn get_winner_on_rows() {
     game.player_action(0);
     game.player_action(1);
     game.player_action(0);
+
+    //THEN
+    assert_eq!(game.get_winner(), Some(1));
+}
+
+#[wasm_bindgen_test]
+fn get_winner_on_rows() {
+    
+    //GIVEN
+    let mut game = FourWins::new();
+
+    //WHEN
+    game.player_action(0);
+    game.player_action(0);
+    game.player_action(1);
+    game.player_action(0);
+    game.player_action(2);
+    game.player_action(0);
+    game.player_action(3);
 
     //THEN
     assert_eq!(game.get_winner(), Some(1));

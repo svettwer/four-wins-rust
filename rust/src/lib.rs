@@ -110,10 +110,10 @@ impl FourWins {
             field_count: i8
         }
 
-        //check rows
-        for (stackIndex, stack) in self.layout.iter().enumerate() {
+        //check cols
+        for (stack_index, stack) in self.layout.iter().enumerate() {
             let mut game_result = GameResult{player: 0, field_count: 0};
-            for (fieldIndex, field) in stack.iter().enumerate() {
+            for (field_index, field) in stack.iter().enumerate() {
                 if game_result.player == *field {
                     game_result.field_count += 1;
                 }else{
@@ -123,10 +123,58 @@ impl FourWins {
 
                 if game_result.player != 0 && game_result.field_count >= 4  {
                     self.win_constellation = Some(WinConstellation{
-                        one: (stackIndex, fieldIndex-3),
-                        two: (stackIndex, fieldIndex-2),
-                        three: (stackIndex, fieldIndex-1),
-                        four: (stackIndex, fieldIndex),
+                        one: (stack_index, field_index-3),
+                        two: (stack_index, field_index-2),
+                        three: (stack_index, field_index-1),
+                        four: (stack_index, field_index),
+                    });
+                    return Some(game_result.player);
+                }
+            }
+        }
+
+        //check rows
+        for row in 0..6 {
+            let mut game_result = GameResult{player: 0, field_count: 0};
+            for col in 0..7 {
+                let field = self.layout[col][row];
+                if game_result.player == field {
+                    game_result.field_count += 1;
+                }else{
+                    game_result.player = field;
+                    game_result.field_count = 1;
+                }
+
+                if game_result.player != 0 && game_result.field_count >= 4  {
+                    self.win_constellation = Some(WinConstellation{
+                        one: (col-3, row),
+                        two: (col-2, row),
+                        three: (col-1, row),
+                        four: (col, row),
+                    });
+                    return Some(game_result.player);
+                }
+            }
+        }
+
+        //check diagnal
+        for row in 0..6 {
+            let mut game_result = GameResult{player: 0, field_count: 0};
+            for col in 0..7 {
+                let field = self.layout[col][row];
+                if game_result.player == field {
+                    game_result.field_count += 1;
+                }else{
+                    game_result.player = field;
+                    game_result.field_count = 1;
+                }
+
+                if game_result.player != 0 && game_result.field_count >= 4  {
+                    self.win_constellation = Some(WinConstellation{
+                        one: (col-3, row),
+                        two: (col-2, row),
+                        three: (col-1, row),
+                        four: (col, row),
                     });
                     return Some(game_result.player);
                 }
