@@ -1,6 +1,6 @@
 mod utils;
 
-use std::{borrow::{Borrow, BorrowMut}, string, usize};
+use std::{usize};
 
 use wasm_bindgen::prelude::*;
 use js_sys;
@@ -158,25 +158,58 @@ impl FourWins {
         }
 
         //check diagnal
-        for row in 0..6 {
-            let mut game_result = GameResult{player: 0, field_count: 0};
-            for col in 0..7 {
-                let field = self.layout[col][row];
-                if game_result.player == field {
-                    game_result.field_count += 1;
-                }else{
-                    game_result.player = field;
+        for col in 0..7 {
+            for row in 0..6 {
+                if col >= 3 && row + 3 < 6 {
+                    let mut game_result = GameResult{player: 0, field_count: 0};
+                    //to left case
+                    game_result.player = self.layout[col][row];
                     game_result.field_count = 1;
+                    if self.layout[col-1][row+1] == game_result.player {
+                        game_result.field_count += 1;
+                    }
+                    if self.layout[col-2][row+2] == game_result.player {
+                        game_result.field_count += 1;
+                    }
+                    if self.layout[col-3][row+3] == game_result.player {
+                        game_result.field_count += 1;
+                    }
+
+                    if game_result.player != 0 && game_result.field_count >= 4  {
+                        self.win_constellation = Some(WinConstellation{
+                            one: (col, row),
+                            two: (col-1, row+1),
+                            three: (col-2, row+2),
+                            four: (col-3, row+3),
+                        });
+                        return Some(game_result.player);
+                    }
                 }
 
-                if game_result.player != 0 && game_result.field_count >= 4  {
-                    self.win_constellation = Some(WinConstellation{
-                        one: (col-3, row),
-                        two: (col-2, row),
-                        three: (col-1, row),
-                        four: (col, row),
-                    });
-                    return Some(game_result.player);
+                if col + 3 < 7 && row + 3 < 6 {
+                    let mut game_result = GameResult{player: 0, field_count: 0};
+                    //to right case
+                    game_result.player = self.layout[col][row];
+                    game_result.field_count = 1;
+                    if self.layout[col+1][row+1] == game_result.player {
+                        game_result.field_count += 1;
+                    }
+                    if self.layout[col+2][row+2] == game_result.player {
+                        game_result.field_count += 1;
+                    }
+                    if self.layout[col+3][row+3] == game_result.player {
+                        game_result.field_count += 1;
+                    }
+
+                    if game_result.player != 0 && game_result.field_count >= 4  {
+                        self.win_constellation = Some(WinConstellation{
+                            one: (col, row),
+                            two: (col+1, row+1),
+                            three: (col+2, row+2),
+                            four: (col+3, row+3),
+                        });
+                        return Some(game_result.player);
+                    }
                 }
             }
         }

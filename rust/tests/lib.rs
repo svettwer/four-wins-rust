@@ -45,6 +45,52 @@ fn get_winner_on_rows() {
 }
 
 #[wasm_bindgen_test]
+fn get_winner_diagnonal_to_left() {
+    
+    //GIVEN
+    let mut game = FourWins::new();
+
+    //WHEN
+    game.player_action(0);
+    game.player_action(1);
+    game.player_action(1);
+    game.player_action(1);
+    game.player_action(2);
+    game.player_action(2);
+    game.player_action(2);
+    game.player_action(3);
+    game.player_action(3);
+    game.player_action(3);
+    game.player_action(3);
+
+    //THEN
+    assert_eq!(game.get_winner(), Some(1));
+}
+
+#[wasm_bindgen_test]
+fn get_winner_diagnonal_to_right() {
+    
+    //GIVEN
+    let mut game = FourWins::new();
+
+    //WHEN
+    game.player_action(6);
+    game.player_action(5);
+    game.player_action(5);
+    game.player_action(5);
+    game.player_action(4);
+    game.player_action(4);
+    game.player_action(4);
+    game.player_action(3);
+    game.player_action(3);
+    game.player_action(3);
+    game.player_action(3);
+
+    //THEN
+    assert_eq!(game.get_winner(), Some(1));
+}
+
+#[wasm_bindgen_test]
 fn player_actions_are_added_to_stack() {
     
     //GIVEN
