@@ -4,19 +4,21 @@
     const stackConfig = {
         defaultBackground: "bg-gray-100",
         playerOne: "bg-red-800",
-        playerTwo: "bg-wellow-800"
+        playerTwo: "bg-yellow-300"
     }
 
     let game = wasm.FourWins.new();
-    let rerender = 0    
+    let layout = []
+    for (let i = 0 ;i < game.get_stack_count();  i++){
+        layout.push(game.get_stack(i))
+    }
 
     function handleClick(stackIndex){
         console.log(`Stack index: ${stackIndex}`); 
-        console.log(`Current stack: ${game.get_stack(stackIndex)}`);
+        console.log(`Current stack: ${layout[stackIndex]}`);
         game.player_action(stackIndex);
-        rerender = rerender+1
-        console.log(rerender)
-        console.log(`Stack after player action: ${game.get_stack(stackIndex)}`);
+        layout[stackIndex] = game.get_stack(stackIndex)
+        console.log(`Stack after player action: ${layout[stackIndex]}`);
     }
 </script>
 
@@ -33,15 +35,16 @@
                     grid 
                     grid-cols-7 
                     gap-4">
-            {#each Array(game.get_stack_count() - 1) as _ , i}
+            {#each layout as stack , i}
                 <div class="md:w-16" id="stack-{i}" on:click={() => handleClick(i) }>
-                {#each game.get_stack(i) as value, j}
-                    {#if value === 1}
-                        <div rerender="{rerender}" val="{value}" class="{stackConfig.playerOne} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
-                    {:else if value === 2}
-                        <div rerender="{rerender}" val="{value}" class="{stackConfig.playerTwo} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
+                {#each stack as field, j}
+                <div field="{field}"></div>
+                    {#if field === 1}
+                        <div class="{stackConfig.playerOne} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
+                    {:else if field === 2}
+                        <div class="{stackConfig.playerTwo} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
                     {:else}
-                        <div rerender="{rerender}" val="{value}" class="{stackConfig.defaultBackground} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
+                        <div class="{stackConfig.defaultBackground} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
                     {/if}
                 {/each}
                 </div>
