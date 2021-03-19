@@ -1,4 +1,4 @@
-orrected name: release-version
+name: release-version
 
 on:
   push:
