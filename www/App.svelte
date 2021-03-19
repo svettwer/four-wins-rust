@@ -11,6 +11,7 @@
     let layout = []
     let winner = 0
     let winConstellation;
+    let currentPlayer = game.current_player;
     for (let i = 0 ;i < game.get_stack_count();  i++){
         layout.push(game.get_stack(i))
     }
@@ -29,69 +30,78 @@
                 const constellation = game.get_win_constellation().get_as_json()
                 console.log(`Win Conselltation: ${constellation}`)
                 winConstellation = JSON.parse(constellation)
+            }else{
+                currentPlayer = game.current_player;
             }
         }
     }
 
     function getWinnerHighlight(x, y) {
+        let cordCheck = sameCords([x,y])
         if( winConstellation ){
-            if( winConstellation.one[0] === x && 
-                winConstellation.one[1] === y || 
-                winConstellation.two[0] === x && 
-                winConstellation.two[1] === y ||  
-                winConstellation.three[0] === x && 
-                winConstellation.three[1] === y ||  
-                winConstellation.four[0] === x && 
-                winConstellation.four[1] === y) {
-                return "border-8 border-solid border-green-900"
+            if( cordCheck(winConstellation.one) ||
+                cordCheck(winConstellation.two) ||
+                cordCheck(winConstellation.three) ||
+                cordCheck(winConstellation.four)) {
+                return "ring-4 md:ring-8 ring-green-900"
             }
         }
         return ""
     }
+
+    const sameCords = ([x1, y1]) => ([x2, y2]) => x1 === x2 && y1 === y2
 </script>
 
 <main>
-    <div class="pt-20">
-        <div class="md:p-3 
-                    md:container 
-                    md:mx-auto
-                    md:w-2/6 
-                    md:h-auto 
+    <div class="space-y-8 p-2 container flex flex-col mx-auto items-center justify-center">
+        <div class="text-center">
+            <div class="text-2xl">Player {currentPlayer}</div>
+        </div>
+        <div class="p-2 
+                    h-auto 
                     bg-blue-500 
-                    object-center 
                     border-8 
                     grid 
                     grid-cols-7 
-                    gap-4">
+                    w-full
+                    gap-2
+                    max-w-screen-md
+                    ">
             {#if !winner}
                 {#each layout as stack , i}
-                    <div class="md:w-16" id="stack-{i}" on:click={() => handleClick(i) }>
+                    <div class=" space-y-2" id="stack-{i}" on:click={() => handleClick(i) }>
                     {#each stack as field, j}
                         {#if field === 1}
-                            <div class="{stackConfig.playerOne} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
+                            <div class="{stackConfig.playerOne} rounded-full w-full flex items-center justify-center" style="padding-top:100%"></div>
                         {:else if field === 2}
-                            <div class="{stackConfig.playerTwo} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
+                            <div class="{stackConfig.playerTwo} rounded-full w-full flex items-center justify-center" style="padding-top:100%"></div>
                         {:else}
-                            <div class="{stackConfig.defaultBackground} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
+                            <div class="{stackConfig.defaultBackground} rounded-full w-full flex items-center justify-center" style="padding-top:100%"></div>
                         {/if}
                     {/each}
                     </div>
                 {/each}
             {:else}
                 {#each layout as stack , i}
-                    <div class="md:w-16" id="stack-{i}" on:click={() => handleClick(i) }>
+                    <div class="space-y-2" id="stack-{i}" on:click={() => handleClick(i) }>
                     {#each stack as field, j}
                         {#if field === 1}
-                            <div class="{stackConfig.playerOne} {getWinnerHighlight(i, j)} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
+                            <div class="{stackConfig.playerOne} {getWinnerHighlight(i, j)} rounded-full w-full flex items-center justify-center" style="padding-top:100%"></div>
                         {:else if field === 2}
-                            <div class="{stackConfig.playerTwo} {getWinnerHighlight(i, j)} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
+                            <div class="{stackConfig.playerTwo} {getWinnerHighlight(i, j)} rounded-full w-full flex items-center justify-center" style="padding-top:100%"></div>
                         {:else}
-                            <div class="{stackConfig.defaultBackground} rounded-full md:h-16 md:w-16 flex items-center justify-center"></div>
+                            <div class="{stackConfig.defaultBackground} rounded-full w-full flex items-center justify-center" style="padding-top:100%"></div>
                         {/if}
                     {/each}
                     </div>
                 {/each}
             {/if}
         </div>
+        {#if winner}
+            <div class="text-center">
+                <div class="text-2xl">Player <strong>{winner}</strong> won!</div>
+                <div class="text-xl">To start a new game, hit <strong>F5</strong>!</div>
+            </div>
+        {/if}
     </div>
 </main>
