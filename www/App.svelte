@@ -16,6 +16,17 @@
         layout.push(game.get_stack(i))
     }
 
+    function newGame() {
+        game = wasm.FourWins.new();
+        currentPlayer = game.current_player;
+        layout = []
+        for (let i = 0 ;i < game.get_stack_count();  i++){
+            layout.push(game.get_stack(i))
+        }   
+        winner = 0
+        winConstellation = undefined
+    }
+
     function handleClick(stackIndex){
         if(!winner){
             console.log(`Stack index: ${stackIndex}`); 
@@ -97,10 +108,13 @@
                 {/each}
             {/if}
         </div>
-        {#if winner}
-            <div class="text-center">
+        {#if !winner}
+            <div class="text-center space-y-4">
                 <div class="text-2xl">Player <strong>{winner}</strong> won!</div>
-                <div class="text-xl">To start a new game, hit <strong>F5</strong>!</div>
+                <button class="font-bold text-lg rounded bg-blue-300 px-4 py-2 hover:bg-blue-500 transition-colors duration-200 hover:text-white" 
+                        on:click={() => newGame()}>
+                        New Game!
+                </button>
             </div>
         {/if}
     </div>
