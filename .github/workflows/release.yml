@@ -16,6 +16,7 @@ jobs:
       - uses: jetli/wasm-pack-action@v0.3.0
       - run: wasm-pack test rust/ --headless --firefox
       - run: wasm-pack build rust --release
+      - run: npm run i --prefix www
       - run: npm run build --prefix www
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3.7.3
