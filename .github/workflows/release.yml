@@ -5,19 +5,19 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2.3.4
-      - name: Setup node 14
-        uses: actions/setup-node@v2.1.4
-        with:
-          node-version: 14
-      - uses: jetli/wasm-pack-action@v0.3.0
-      - run: wasm-pack test rust/ --headless --firefox
-      - run: wasm-pack build rust --release
-      - run: npm run build --prefix www
-      - name: Publish to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3.7.3
-        with:
-          deploy_key: ${{ secrets.GH_PAGES_DEPLOY_KEY }}
-          publish_dir: ./www/dist
+    - runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2.3.4
+        - name: Setup node 14
+          uses: actions/setup-node@v2.1.4
+          with:
+            node-version: 14
+        - uses: jetli/wasm-pack-action@v0.3.0
+        - run: wasm-pack test rust/ --headless --firefox
+        - run: wasm-pack build rust --release
+        - run: npm run build --prefix www
+        - name: Publish to GitHub Pages
+          uses: peaceiris/actions-gh-pages@v3.7.3
+          with:
+            deploy_key: ${{ secrets.GH_PAGES_DEPLOY_KEY }}
+            publish_dir: ./www/dist
