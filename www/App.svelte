@@ -1,5 +1,7 @@
 <script>
     import * as wasm from "four-wins"
+    import CurrentPlayer from "./CurrentPlayer.svelte"
+    import NewGame from "./NewGame.svelte"
 
     const stackConfig = {
         defaultBackground: "bg-gray-100",
@@ -16,7 +18,7 @@
         layout.push(game.get_stack(i))
     }
 
-    function newGame() {
+    function handleNewGame() {
         game = wasm.FourWins.new();
         currentPlayer = game.current_player;
         layout = []
@@ -29,17 +31,11 @@
 
     function handleClick(stackIndex){
         if(!winner){
-            console.log(`Stack index: ${stackIndex}`); 
-            console.log(`Current stack: ${layout[stackIndex]}`);
             game.player_action(stackIndex);
             layout[stackIndex] = game.get_stack(stackIndex)
-            console.log(`Stack after player action: ${layout[stackIndex]}`);
             winner = game.get_winner();
-            console.log(`Winner: ${winner}`)
-
             if(winner){
                 const constellation = game.get_win_constellation().get_as_json()
-                console.log(`Win Conselltation: ${constellation}`)
                 winConstellation = JSON.parse(constellation)
             }else{
                 currentPlayer = game.current_player;
@@ -48,6 +44,7 @@
     }
 
     function getWinnerHighlight(x, y) {
+        const sameCords = ([x1, y1]) => ([x2, y2]) => x1 === x2 && y1 === y2
         let cordCheck = sameCords([x,y])
         if( winConstellation ){
             if( cordCheck(winConstellation.one) ||
@@ -59,15 +56,11 @@
         }
         return ""
     }
-
-    const sameCords = ([x1, y1]) => ([x2, y2]) => x1 === x2 && y1 === y2
 </script>
 
 <main>
     <div class="space-y-8 p-2 container flex flex-col mx-auto items-center justify-center">
-        <div class="text-center">
-            <div class="text-2xl">Player {currentPlayer}</div>
-        </div>
+        <CurrentPlayer currentPlayer="{currentPlayer}" />
         <div class="p-2 
                     h-auto 
                     bg-blue-500 
@@ -109,13 +102,10 @@
             {/if}
         </div>
         {#if winner}
-            <div class="text-center space-y-4">
-                <div class="text-2xl">Player <strong>{winner}</strong> won!</div>
-                <button class="font-bold text-lg rounded bg-blue-300 px-4 py-2 hover:bg-blue-500 transition-colors duration-200 hover:text-white" 
-                        on:click={() => newGame()}>
-                        New Game!
-                </button>
-            </div>
+            <NewGame 
+                winner="{winner}" 
+                onNewGame="{handleNewGame}"
+            />
         {/if}
     </div>
 </main>
