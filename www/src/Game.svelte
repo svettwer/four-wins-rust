@@ -1,8 +1,7 @@
 <script>
-
     export let layout;
     export let handleFieldClick;
-    export let stackConfig;
+    export let gameConfig;
     export let winConstellation;
 
     function getWinnerHighlight(x, y) {
@@ -18,18 +17,27 @@
         }
         return ""
     }
+
+    function getFieldColor(player){
+        switch (player) {
+            case 0: return gameConfig.defaultBackground; break;
+            case 1: return gameConfig.playerOne; break;
+            case 2: return gameConfig.playerTwo; break;
+        }
+    }
 </script>
 
 {#each layout as stack , i}
     <div class=" space-y-2" id="stack-{i}" on:click={() => handleFieldClick(i) }>
     {#each stack as field, j}
-        {#if field === 1}
-            <div class="{stackConfig.playerOne} {winConstellation ? getWinnerHighlight(i, j) : ""} rounded-full w-full flex items-center justify-center" style="padding-top:100%"></div>
-        {:else if field === 2}
-            <div class="{stackConfig.playerTwo} {winConstellation ? getWinnerHighlight(i, j) : ""} rounded-full w-full flex items-center justify-center" style="padding-top:100%"></div>
-        {:else}
-            <div class="{stackConfig.defaultBackground} rounded-full w-full flex items-center justify-center" style="padding-top:100%"></div>
-        {/if}
+        <div 
+            class="{getFieldColor(field)} 
+            {winConstellation ? getWinnerHighlight(i, j) : ""} 
+            rounded-full 
+            w-full flex 
+            items-center 
+            justify-center" 
+            style="padding-top:100%" />
     {/each}
     </div>
 {/each}
