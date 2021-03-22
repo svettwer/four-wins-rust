@@ -14,8 +14,8 @@ jobs:
         with:
           node-version: 14
       - uses: jetli/wasm-pack-action@v0.3.0
-      - run: wasm-pack test rust/ --headless --firefox
       - run: wasm-pack build rust --release
+      - run: wasm-pack test rust --headless --firefox
       - run: npm i --prefix www
       - run: npm run build --prefix www
         env:
