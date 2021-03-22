@@ -22,16 +22,13 @@
         winner = 0
         winConstellation = undefined
         currentPlayer = game.current_player;
-        layout = []
-        for (let i = 0 ;i < game.get_stack_count();  i++){
-            layout.push(game.get_stack(i))
-        }   
+        layout = JSON.parse(game.get_layout_json());
     }
 
     function handleFieldClick(stackIndex){
         if(!winner){
             game.player_action(stackIndex);
-            layout[stackIndex] = game.get_stack(stackIndex)
+            layout = JSON.parse(game.get_layout_json());
             winner = game.get_winner();
             if(winner){
                 const constellation = game.get_win_constellation().as_json()

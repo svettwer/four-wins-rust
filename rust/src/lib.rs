@@ -77,12 +77,8 @@ impl FourWins {
         }
     }
 
-    pub fn get_stack(&self, id: usize) -> js_sys::Int8Array  {
-        js_sys::Int8Array::from(&self.layout[id][..])
-    }
-
-    pub fn get_stack_count(&self) -> usize {
-        self.layout.len()
+    pub fn get_layout_json(&self) -> String {
+        serde_json::to_string(&self.layout).unwrap()
     }
 
     pub fn get_winner(&mut self) -> Option<i8> {
