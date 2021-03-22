@@ -20,9 +20,9 @@
 
     function getFieldColor(player){
         switch (player) {
-            case 0: return gameConfig.defaultBackground; break;
-            case 1: return gameConfig.playerOne; break;
-            case 2: return gameConfig.playerTwo; break;
+            case 0: return gameConfig.defaultBackground;
+            case 1: return gameConfig.playerOne;           
+            case 2: return gameConfig.playerTwo;        
         }
     }
 </script>
