@@ -45,12 +45,12 @@
 </script>
 
 <main>
-    <div class="space-y-8 p-2 container flex flex-col mx-auto items-center justify-center">
+    <div class="space-y-4 p-2 container flex flex-col mx-auto items-center justify-center">
         <CurrentPlayer currentPlayer="{currentPlayer}" />
         <div class="p-2 
                     h-auto 
                     bg-blue-500 
-                    border-8 
+                    border-4 
                     grid 
                     grid-cols-7 
                     w-full
