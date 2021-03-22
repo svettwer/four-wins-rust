@@ -38,7 +38,7 @@
             flex 
             items-center 
             justify-center" 
-            style="padding-top:100%" />
+            style="padding-top:100%"/>
     {/each}
     </div>
 {/each}

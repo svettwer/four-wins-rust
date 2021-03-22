@@ -34,7 +34,7 @@
             layout[stackIndex] = game.get_stack(stackIndex)
             winner = game.get_winner();
             if(winner){
-                const constellation = game.get_win_constellation().get_as_json()
+                const constellation = game.get_win_constellation().as_json()
                 winConstellation = JSON.parse(constellation)
             }else{
                 currentPlayer = game.current_player;

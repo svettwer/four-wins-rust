@@ -4,9 +4,16 @@ use std::{usize};
 
 use wasm_bindgen::prelude::*;
 use js_sys;
+use serde::{Deserialize, Serialize};
+
+// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
+// allocator.
+#[cfg(feature = "wee_alloc")]
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Deserialize, Serialize)]
 pub struct WinConstellation {
     one: (usize, usize),
     two: (usize, usize),
@@ -17,34 +24,8 @@ pub struct WinConstellation {
 #[wasm_bindgen]
 impl WinConstellation {
 
-    pub fn get_as_json(&self) -> String {
-        let mut json = String::new();
-        json.push('{');
-        json.push_str("\"one\": [");
-        json.push_str(self.one.0.to_string().as_str());
-        json.push_str(", ");
-        json.push_str(self.one.1.to_string().as_str());
-        json.push_str("]");
-        json.push_str(",");
-        json.push_str("\"two\": [");
-        json.push_str(self.two.0.to_string().as_str());
-        json.push_str(", ");
-        json.push_str(self.two.1.to_string().as_str());
-        json.push_str("]");
-        json.push_str(",");
-        json.push_str("\"three\": [");
-        json.push_str(self.three.0.to_string().as_str());
-        json.push_str(", ");
-        json.push_str(self.three.1.to_string().as_str());
-        json.push_str("]");
-        json.push_str(",");
-        json.push_str("\"four\": [");
-        json.push_str(self.four.0.to_string().as_str());
-        json.push_str(", ");
-        json.push_str(self.four.1.to_string().as_str());
-        json.push_str("]");
-        json.push('}');
-        json
+    pub fn as_json(&self) -> String  {
+        serde_json::to_string(self).unwrap()
     }
 }
 
@@ -220,20 +201,4 @@ impl FourWins {
     pub fn get_win_constellation(&self) -> Option<WinConstellation>{
          return self.win_constellation
     }
-}
-
-// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
-// allocator.
-#[cfg(feature = "wee_alloc")]
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
-#[wasm_bindgen]
-extern {
-    fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn greet() {
-    alert("Hello, four-wins!");
 }
