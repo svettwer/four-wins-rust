@@ -55,7 +55,7 @@
                     grid-cols-7 
                     w-full
                     gap-2
-                    max-w-screen-md
+                    max-w-screen-sm
                     ">
                 <Game 
                     layout="{layout}" 

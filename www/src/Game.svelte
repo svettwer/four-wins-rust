@@ -34,7 +34,8 @@
             class="{getFieldColor(field)} 
             {winConstellation ? getWinnerHighlight(i, j) : ""} 
             rounded-full 
-            w-full flex 
+            w-full 
+            flex 
             items-center 
             justify-center" 
             style="padding-top:100%" />
