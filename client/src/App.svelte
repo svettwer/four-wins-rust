@@ -1,72 +1,24 @@
 <script>
     import "tailwindcss/tailwind.css"
-    import * as wasm from "four-wins"
-    import CurrentPlayer from "./CurrentPlayer.svelte"
-    import NewGame from "./NewGame.svelte"
-    import Game from "./Game.svelte"
+    import FourWins from "./FourWins.svelte";
 
-    const gameConfig = {
-        defaultBackground: "bg-gray-100",
-        playerOne: "bg-red-800",
-        playerTwo: "bg-yellow-300"
-    }
-
-    let game;
-    let layout;
-    let winner;
-    let winConstellation;
-    let currentPlayer;
-
-    function initGame() {
-        game = wasm.FourWins.new();
-        winner = 0
-        winConstellation = undefined
-        currentPlayer = game.current_player;
-        layout = JSON.parse(game.get_layout_json());
-    }
-
-    function handleFieldClick(stackIndex){
-        if(!winner){
-            game.player_action(stackIndex);
-            layout = JSON.parse(game.get_layout_json());
-            winner = game.get_winner();
-            if(winner){
-                const constellation = game.get_win_constellation().as_json()
-                winConstellation = JSON.parse(constellation)
-            }else{
-                currentPlayer = game.current_player;
-            }
-        }
-    }
-
-    initGame();
+    let gameMode;
 </script>
 
 <main>
-    <div class="space-y-8 p-2 container flex flex-col mx-auto items-center justify-center">
-        <CurrentPlayer currentPlayer="{currentPlayer}" />
-        <div class="p-2 
-                    h-auto 
-                    bg-blue-500 
-                    border-8 
-                    grid 
-                    grid-cols-7 
-                    w-full
-                    gap-2
-                    max-w-screen-sm
-                    ">
-                <Game 
-                    layout="{layout}" 
-                    handleFieldClick="{handleFieldClick}" 
-                    gameConfig="{gameConfig}"
-                    winConstellation="{winConstellation}"
-                /> 
+    {#if gameMode}
+        <FourWins />
+    {:else}
+        <div class="p-8 space-y-8 bg-blue-500 h-screen">
+            <div class="text-center">
+                <div class="text-4xl text-white">Four Wins</div>
+            </div>
+            <div class="container mx-auto flex flex-col items-center justify-center space-y-4 text-white">
+                <div class="text-2xl">Select Game Mode</div>
+                <button class="text-xl font-bold text-lg rounded bg-blue-800 px-4 py-2 hover:bg-blue-300 transition-colors duration-200 hover:text-black">Singleplayer</button>
+                <button class="text-xl font-bold text-lg rounded bg-blue-800 px-4 py-2 hover:bg-blue-300 transition-colors duration-200 hover:text-black">Multiplayer</button>
+            </div>
         </div>
-        {#if winner}
-            <NewGame 
-                winner="{winner}" 
-                onNewGame="{initGame}"
-            />
-        {/if}
-    </div>
+    {/if}
+    
 </main>
