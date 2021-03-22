@@ -4,30 +4,27 @@
     import NewGame from "./NewGame.svelte"
     import Game from "./Game.svelte"
 
-    const stackConfig = {
+    const gameConfig = {
         defaultBackground: "bg-gray-100",
         playerOne: "bg-red-800",
         playerTwo: "bg-yellow-300"
     }
 
-    let game = wasm.FourWins.new();
-    let layout = []
-    let winner = 0
+    let game;
+    let layout;
+    let winner;
     let winConstellation;
-    let currentPlayer = game.current_player;
-    for (let i = 0 ;i < game.get_stack_count();  i++){
-        layout.push(game.get_stack(i))
-    }
+    let currentPlayer;
 
-    function handleNewGame() {
+    function initGame() {
         game = wasm.FourWins.new();
+        winner = 0
+        winConstellation = undefined
         currentPlayer = game.current_player;
         layout = []
         for (let i = 0 ;i < game.get_stack_count();  i++){
             layout.push(game.get_stack(i))
         }   
-        winner = 0
-        winConstellation = undefined
     }
 
     function handleFieldClick(stackIndex){
@@ -43,6 +40,8 @@
             }
         }
     }
+
+    initGame();
 </script>
 
 <main>
@@ -61,14 +60,14 @@
                 <Game 
                     layout="{layout}" 
                     handleFieldClick="{handleFieldClick}" 
-                    stackConfig="{stackConfig}"
+                    gameConfig="{gameConfig}"
                     winConstellation="{winConstellation}"
                 /> 
         </div>
         {#if winner}
             <NewGame 
                 winner="{winner}" 
-                onNewGame="{handleNewGame}"
+                onNewGame="{initGame}"
             />
         {/if}
     </div>
