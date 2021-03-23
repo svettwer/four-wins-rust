@@ -1,4 +1,6 @@
 <script>
+import SetupMultiplayerGame from "./SetupMultiplayerGame.svelte";
+
     export let onSetGameMode;
 
     let buttonStyle = `
@@ -16,19 +18,23 @@
             `
     let gameMode
 
-    function dispatchGameModes(gameMode) {
-        if(gameMode === "singleplayer"){
+    function dispatchGameModes(ChosenGameMode) {
+        if(ChosenGameMode === "singleplayer") {
             onSetGameMode("singleplayer")
+        }else {
+            gameMode = ChosenGameMode
         }
     }
+
+
 </script>
 
-{#if gameMode === "multiplayer"}
-<div></div>
-{:else}
-    <div class="container mx-auto flex flex-col items-center justify-center space-y-4 text-white">
+<div class="container mx-auto flex flex-col items-center justify-center space-y-4 text-white">
+    {#if gameMode === "multiplayer"}
+        <SetupMultiplayerGame/>
+    {:else}
         <div class="text-2xl">Select Game Mode</div>
         <button class="{buttonStyle}" on:click={() => dispatchGameModes("singleplayer")}>Singleplayer</button>
         <button class="{buttonStyle}" on:click={() => dispatchGameModes("multiplayer")}>Multiplayer</button>
-    </div>
-{/if}
+    {/if}
+</div>
