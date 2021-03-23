@@ -1,5 +1,4 @@
 <script>
-    let sessionId = getRandomSessionId()
     let playerName;
     let fetchImage;
 
@@ -17,14 +16,14 @@
             hover:text-black
             `
 
-    function getRandomSessionId(){
-        return Math.random().toString(36).substr(2, 9);
-    }
 
     function handleOpenLobby(params) {
         fetchImage = (async () => {
-		const response = await fetch('https://localhost:3000/newLobby', {
-            method: "POST"
+		const response = await fetch('https://localhost:3000/lobby',{
+            method: "POST",
+            body: {
+                playerName: playerName
+            }
         })
         return await response.json()
         })()
