@@ -1,16 +1,24 @@
-const express = require('express')
-const bodyParser = require('body-parser');
-const app = express()
+import express from 'express';
+import bodyParser from 'body-parser';
+
+import expressWs from 'express-ws';
+
 const port = 3000
-var expressWs = require('express-ws')(app);
+
+const { app, getWss, applyTo } = expressWs(express());
 
 app.use(bodyParser.json());
 
+interface Lobby{
+  sessionsId: string;
+  players: any[];
+}
+
 // TODO: Add housekeeping for lobbies
-const lobbies = []
+const lobbies: Lobby[] = []
 
 function getRandomSessionId(){
-  return Math.random().toString(36).substr(2, 9);
+  return Math.random().toString(36).substring(2, 9);
 }
 
 app.get('/lobby', (req, res) => {
@@ -18,7 +26,7 @@ app.get('/lobby', (req, res) => {
 })
 
 app.post('/lobby', (req, res) => {
-  const lobby = {
+  const lobby: Lobby = {
     sessionsId: getRandomSessionId(),
     players: [req.body.playerName]
   }
