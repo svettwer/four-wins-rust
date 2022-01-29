@@ -1,6 +1,8 @@
 <script>
+    import { ENDPOINTS } from './endpoints'
+
     let playerName;
-    let fetchImage;
+    let openLobby;
 
     let buttonStyle = `
             text-xl 
@@ -18,12 +20,13 @@
 
 
     function handleOpenLobby(params) {
-        fetchImage = (async () => {
-		const response = await fetch('https://localhost:3000/lobby',{
+        openLobby = (async () => {
+		const response = await fetch(ENDPOINTS.LOBBY, {
             method: "POST",
             body: {
                 playerName: playerName
-            }
+            },
+            
         })
         return await response.json()
         })()
@@ -32,8 +35,8 @@
 
 <div>
     <div class="text-2xl py-4">Multiplayer</div>
-    {#if fetchImage}
-        {#await fetchImage}
+    {#if openLobby}
+        {#await openLobby}
             <p>...creating Lobby</p>
         {:then data}
             <p>TODO: Render lobby</p>
