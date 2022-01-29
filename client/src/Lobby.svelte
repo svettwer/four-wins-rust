@@ -1,0 +1,14 @@
+<script>
+    import { getConfig } from "./getConfig";
+
+
+    export let lobbyData;
+    let config = getConfig();
+</script>
+
+<div>
+    <div class="text-xl">Your Lobby</div>
+    {JSON.stringify(lobbyData)}
+
+    <div>Copy link to invite others: {config.selfUrl}{lobbyData.sessionsId}</div>
+</div>

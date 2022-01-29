@@ -23,6 +23,11 @@ module.exports = {
         use: 'svelte-loader'
       },
       {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         // required to prevent errors from Svelte on Webpack 5+, omit on Webpack 4
         test: /node_modules\/svelte\/.*\.mjs$/,
         resolve: {

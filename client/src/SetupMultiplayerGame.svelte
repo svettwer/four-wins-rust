@@ -1,5 +1,6 @@
 <script>
-    import { ENDPOINTS } from './endpoints'
+    import Lobby from './Lobby.svelte';
+    import { createNewLobby } from './client'
 
     let playerName;
     let openLobby;
@@ -19,17 +20,8 @@
             `
 
 
-    function handleOpenLobby(params) {
-        openLobby = (async () => {
-		const response = await fetch(ENDPOINTS.LOBBY, {
-            method: "POST",
-            body: {
-                playerName: playerName
-            },
-            
-        })
-        return await response.json()
-        })()
+    function handleOpenLobby() {
+        openLobby = createNewLobby(playerName)
     }
 </script>
 
@@ -39,7 +31,7 @@
         {#await openLobby}
             <p>...creating Lobby</p>
         {:then data}
-            <p>TODO: Render lobby</p>
+            <Lobby lobbyData={data}/>
         {:catch error}
             <p>An error occurred!</p>
         {/await}
