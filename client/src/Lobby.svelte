@@ -10,5 +10,5 @@
     <div class="text-xl">Your Lobby</div>
     {JSON.stringify(lobbyData)}
 
-    <div>Copy link to invite others: {config.selfUrl}{lobbyData.sessionsId}</div>
+    <div>Copy link to invite others: {config.selfUrl}?lobby={lobbyData.lobbyId}</div>
 </div>

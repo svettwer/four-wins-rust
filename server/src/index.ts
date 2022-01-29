@@ -20,7 +20,7 @@ if(process.env.ENVIRONMENT == "dev"){
 }
 
 interface Lobby{
-  sessionsId: string;
+  lobbyId: string;
   players: any[];
 }
 
@@ -37,7 +37,7 @@ app.get('/api/lobby', (req, res) => {
 
 app.post('/api/lobby', (req, res) => {
   const lobby: Lobby = {
-    sessionsId: getRandomSessionId(),
+    lobbyId: getRandomSessionId(),
     players: [req.body.playerName]
   }
   lobbies.push(lobby)
@@ -46,7 +46,7 @@ app.post('/api/lobby', (req, res) => {
 
 app.ws('/api/lobby/:sessionsId', function(ws, req) {
   ws.on('message', function(msg) {
-    if(lobbies.find(lobby => lobby.sessionsId === req.params.sessionsId)){
+    if(lobbies.find(lobby => lobby.lobbyId === req.params.sessionsId)){
       console.log(msg);
       ws.send("received message " + msg + " for lobby " + req.params.sessionsId)
     }else{
