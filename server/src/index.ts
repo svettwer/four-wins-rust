@@ -1,13 +1,22 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-
 import expressWs from 'express-ws';
+import * as dotenv from 'dotenv'
+
+dotenv.config();
 
 const port = 3000
 
 const { app, getWss, applyTo } = expressWs(express());
 
 app.use(bodyParser.json());
+
+if(process.env.ENVIRONMENT == "dev"){
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+  });
+}
 
 interface Lobby{
   sessionsId: string;
@@ -21,11 +30,11 @@ function getRandomSessionId(){
   return Math.random().toString(36).substring(2, 9);
 }
 
-app.get('/lobby', (req, res) => {
+app.get('/api/lobby', (req, res) => {
   res.send(JSON.stringify(lobbies))
 })
 
-app.post('/lobby', (req, res) => {
+app.post('/api/lobby', (req, res) => {
   const lobby: Lobby = {
     sessionsId: getRandomSessionId(),
     players: [req.body.playerName]
@@ -34,7 +43,7 @@ app.post('/lobby', (req, res) => {
   res.send(JSON.stringify(lobby))
 })
 
-app.ws('/lobby/:sessionsId', function(ws, req) {
+app.ws('/api/lobby/:sessionsId', function(ws, req) {
   ws.on('message', function(msg) {
     if(lobbies.find(lobby => lobby.sessionsId === req.params.sessionsId)){
       console.log(msg);
