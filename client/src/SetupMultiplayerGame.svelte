@@ -2,6 +2,8 @@
     import Lobby from './Lobby.svelte';
     import { createNewLobby } from './client'
 
+    export let onLobbyCreated;
+
     let playerName;
     let openLobby;
 
@@ -25,26 +27,23 @@
     }
 </script>
 
-<div>
-    <div class="text-2xl py-4">Multiplayer</div>
-    {#if openLobby}
-        {#await openLobby}
-            <p>...creating Lobby</p>
-        {:then data}
-            <Lobby lobbyData={data}/>
-        {:catch error}
-            <p>An error occurred!</p>
-        {/await}
-        {:else}
-        <div class="space-y-4">
-            <div>
-                <div class="rounded-full bg-red-800"/>
-                <label for="playerName">Name:</label>
-                <input class="bg-blue-800 rounded hover:border-2 hover:border-white" id="playerName" bind:value={playerName}>
-            </div>
-            <div>
-                <button class="{buttonStyle}" on:click={() => handleOpenLobby()}>Open Lobby</button>
-            </div>
+{#if openLobby}
+    {#await openLobby}
+        <p>...creating Lobby</p>
+    {:then data}
+        {onLobbyCreated(data)}
+    {:catch error}
+        <p>An error occurred!</p>
+    {/await}
+    {:else}
+    <div class="space-y-4">
+        <div>
+            <div class="rounded-full bg-red-800"/>
+            <label for="playerName">Name:</label>
+            <input class="bg-blue-800 rounded hover:border-2 hover:border-white" id="playerName" bind:value={playerName}>
         </div>
-    {/if}
-</div>
+        <div>
+            <button class="{buttonStyle}" on:click={() => handleOpenLobby()}>Open Lobby</button>
+        </div>
+    </div>
+{/if}
