@@ -5,6 +5,7 @@
 
     let playerName;
     let openLobby;
+    let playerNameMissing = false;
 
     let buttonStyle = `
             text-xl 
@@ -22,7 +23,12 @@
 
 
     function handleOpenLobby() {
-        openLobby = createNewLobby(playerName)
+        if(!playerName){
+            playerNameMissing = true;
+        }
+        else{
+            openLobby = createNewLobby(playerName)
+        }
     }
 </script>
 
@@ -34,10 +40,14 @@
     {:catch error}
         <p>An error occurred!</p>
     {/await}
-    {:else}
+{:else}
     <div class="space-y-4">
+        {#if playerNameMissing}
+            <div class="space-y-4">Please enter a name</div>
+        {:else}
+            <div class="space-y-4">&nbsp;</div>
+        {/if}
         <div>
-            <div class="rounded-full bg-red-800"/>
             <label for="playerName">Name:</label>
             <input class="bg-blue-800 rounded border-2 border-blue-300 hover:border-2 hover:border-white" id="playerName" bind:value={playerName}>
         </div>
