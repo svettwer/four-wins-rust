@@ -1,5 +1,4 @@
 <script>
-
     import * as wasm from "four-wins"
     import CurrentPlayer from "./CurrentPlayer.svelte"
     import NewGame from "./NewGame.svelte"

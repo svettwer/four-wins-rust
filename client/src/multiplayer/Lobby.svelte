@@ -1,7 +1,6 @@
 <script>
-    import { getConfig } from "./getConfig";
-
-
+    import { getConfig } from "../config/getConfig";
+    
     export let lobbyData;
     let config = getConfig();
 </script>

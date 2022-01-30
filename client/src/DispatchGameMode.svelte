@@ -1,6 +1,6 @@
 <script>
-    import FourWins from "./FourWins.svelte";
-    import ManageMultiplayerGame from "./ManageMultiplayerGame.svelte";
+    import FourWins from "./game/FourWins.svelte";
+    import ManageMultiplayerGame from "./multiplayer/ManageMultiplayerGame.svelte";
 
     export let lobby;
     export let gameMode;

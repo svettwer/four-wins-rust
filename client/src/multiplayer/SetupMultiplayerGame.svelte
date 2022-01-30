@@ -1,6 +1,5 @@
 <script>
-    import Lobby from './Lobby.svelte';
-    import { createNewLobby } from './client'
+    import { createNewLobby } from '../client'
 
     export let onLobbyCreated;
 

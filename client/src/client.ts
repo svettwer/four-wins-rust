@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "./endpoints"
+import { ENDPOINTS } from "./config/endpoints"
 
 export async function createNewLobby(playerName: string){
     const response = await fetch(ENDPOINTS.LOBBY, {
