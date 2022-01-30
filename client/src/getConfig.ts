@@ -2,7 +2,10 @@ import dev from "./envs/dev.json"
 
 export function getConfig() {
     switch(window.location.hostname){
-        case "localhost":{
+        case "localhost": {
+            return dev;
+        }
+        default: {
             return dev;
         }
     }
