@@ -15,7 +15,7 @@
     <div class="text-2xl py-4">Multiplayer</div>
         {#key lobby}
             {#if lobby}
-                <Lobby lobbyData={lobby}/>
+                <Lobby lobby={lobby}/>
             {:else}
                 <SetupMultiplayerGame onLobbyCreated={handleOnLobbyCreated}/>
             {/if}

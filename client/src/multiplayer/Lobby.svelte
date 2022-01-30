@@ -1,14 +1,11 @@
 <script>
     import { getConfig } from "../config/getConfig";
-    import MdContentCopy from "svelte-icons/md/MdContentCopy.svelte"
 
-    export let lobbyData;
+    export let lobby;
+
     let config = getConfig();
-
-    let invitationLink = `${config.selfUrl}?lobby=${lobbyData.lobbyId}`
-
+    let invitationLink = `${config.selfUrl}?lobby=${lobby.lobbyId}`
     let copied = false;
-
     let buttonStyle = `
             text-m 
             font-bold 
@@ -32,7 +29,7 @@
 <div>
     <div class="py-5">
         <div class="text-xl">Your Lobby</div>
-        {JSON.stringify(lobbyData)}
+        {JSON.stringify(lobby)}
     </div>
     <div>
         <div>

@@ -35,6 +35,11 @@ app.get('/api/lobby', (req, res) => {
   res.send(JSON.stringify(lobbies))
 })
 
+app.get('/api/lobby/:lobbyId', (req, res) => {
+  res.send(JSON.stringify(
+    lobbies.find(lobby => lobby.lobbyId ===  req.params.lobbyId)))
+})
+
 app.post('/api/lobby', (req, res) => {
   const lobby: Lobby = {
     lobbyId: getRandomSessionId(),
@@ -44,18 +49,15 @@ app.post('/api/lobby', (req, res) => {
   res.send(JSON.stringify(lobby))
 })
 
-app.ws('/api/lobby/:sessionsId', function(ws, req) {
+app.ws('/api/lobby/:lobbyId', function(ws, req) {
   ws.on('message', function(msg) {
-    if(lobbies.find(lobby => lobby.lobbyId === req.params.sessionsId)){
-      console.log(msg);
-      ws.send("received message " + msg + " for lobby " + req.params.sessionsId)
+    if(lobbies.find(lobby => lobby.lobbyId === req.params.lobbyId)){
+      ws.send("received message " + msg + " for lobby " + req.params.lobbyId)
     }else{
       ws.send("unknown lobby")
     }
   });
 });
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

@@ -13,3 +13,14 @@ export async function createNewLobby(playerName: string){
     })
     return await response.json()
 }
+
+export async function getLobby(lobbyId: string){
+    const response = await fetch(`${ENDPOINTS.LOBBY}/${lobbyId}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        
+    })
+    return await response.json()
+}
