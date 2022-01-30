@@ -39,7 +39,7 @@
         <div>
             <div class="rounded-full bg-red-800"/>
             <label for="playerName">Name:</label>
-            <input class="bg-blue-800 rounded hover:border-2 hover:border-white" id="playerName" bind:value={playerName}>
+            <input class="bg-blue-800 rounded border-2 border-blue-300 hover:border-2 hover:border-white" id="playerName" bind:value={playerName}>
         </div>
         <div>
             <button class="{buttonStyle}" on:click={() => handleOpenLobby()}>Open Lobby</button>
